@@ -1,4 +1,4 @@
-import {pokemons} from "../info_pokemons/pokemons.js";
+import { pokemons } from "../info_pokemons/pokemons";
 
 class Pokemon {
 
@@ -23,7 +23,19 @@ class Pokemon {
 
 
     static fill_pokemons(){
-        
+        pokemons.array.forEach(poke => {
+            const currentPokemon = new Pokemon(
+                poke.pokemon_id,
+                poke.pokemon_name,
+                poke.base_stamina,
+                poke.base_attack,
+                poke.base_defense,
+                null,
+                null,
+                null            
+            )
+            console.log(currentPokemon);
+        });
     }
 }
 
