@@ -1,4 +1,5 @@
-import { pokemons } from "../info_pokemons/pokemons";
+import { pokemons } from "../info_pokemons/pokemons.js";
+import { Type } from './type.js'
 
 class Pokemon {
 
@@ -23,7 +24,7 @@ class Pokemon {
 
 
     static fill_pokemons(){
-        pokemons.array.forEach(poke => {
+        pokemons.forEach(poke => {
             const currentPokemon = new Pokemon(
                 poke.pokemon_id,
                 poke.pokemon_name,
@@ -37,6 +38,12 @@ class Pokemon {
             console.log(currentPokemon);
         });
     }
+
+    static getTypes() {
+        Type.fill_type()
+        return Type.all_types
+    }
 }
 
 Pokemon.fill_pokemons();
+console.log(Pokemon.getTypes())

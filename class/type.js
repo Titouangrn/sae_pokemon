@@ -1,10 +1,10 @@
 import {type_effectiveness} from "../info_pokemons/type_effectiveness.js"
 
-class Type {
+export class Type {
     static typeFormatted
     static all_types
 
-    constructor() {
+    constructor() { // Todo faire en sorte que ça devienne un vrais type en mode plante elec ... 
        this.typeFormatted = {}
 
        for (const type in type_effectiveness) {

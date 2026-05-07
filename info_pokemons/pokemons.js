@@ -1,4 +1,4 @@
-const pokemons =
+export const pokemons =
     [
         {
             "base_attack": 118,
