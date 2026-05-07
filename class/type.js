@@ -1,6 +1,9 @@
 import {type_effectiveness} from "../info_pokemons/type_effectiveness.js"
 
 class Type {
+    static typeFormatted
+    static all_types
+
     constructor() {
        this.typeFormatted = {}
 
@@ -41,7 +44,7 @@ class Type {
     /**
      * Fill the all_types variable with 
      */
-    fill_type() {
+    static fill_type() {
         this.all_types = []
         for (const type in type_effectiveness) {
             this.all_types.push(type)
