@@ -1,4 +1,5 @@
-const fast_moves =
+// export ajouté, faira sans et avec les tag scripts dans le html
+export const fast_moves =
     [
         {
             "duration": 400,

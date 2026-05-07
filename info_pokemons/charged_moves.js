@@ -1,4 +1,5 @@
-const charged_moves = 
+// export ajouté, faira sans et avec les tag scripts dans le html
+export const charged_moves = 
 [
     {
         "critical_chance": 0.05,
