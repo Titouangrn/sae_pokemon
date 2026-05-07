@@ -6,6 +6,7 @@ class Type {
 
        for (const type in type_effectiveness) {
             for (const ennemyType in type_effectiveness[type]) {
+                // check if the type has not been initiated yet and if the attack percentage is also present for a given type
                 if (this.typeFormatted[type] == undefined 
                 ||  this.typeFormatted[type][type_effectiveness[type][ennemyType]] == undefined) {
                     // Assign to not replace the in this.typeFormatted[type]
@@ -36,7 +37,14 @@ class Type {
 
         return string
     }
-}
 
-var type = new Type()
-console.log(type.toString())
+    /**
+     * Fill the all_types variable with 
+     */
+    fill_type() {
+        this.all_types = []
+        for (const type in type_effectiveness) {
+            this.all_types.push(type)
+        }
+    }
+}
