@@ -1,4 +1,7 @@
 import { pokemons } from "../info_pokemons/pokemons.js";
+import { pokemon_types } from "../info_pokemons/pokemon_types.js";
+import { pokemon_moves } from "../info_pokemons/pokemon_moves.js";
+
 import { Type } from './type.js'
 
 class Pokemon {
@@ -11,9 +14,14 @@ class Pokemon {
         this.stamina = stamina;
         this.baseAttaque = baseAttaque;
         this.baseDefense = baseDefense;
-        this.nomTypes = nomTypes;
-        this.nomsAttaquesRapides = nomsAttaquesRapides;
-        this.nomsAttaquesChargees = nomsAttaquesChargees;
+
+        this.types = []
+        for(const type in nomTypes) {
+            this.types.push(new Type(type))
+        }
+
+        this.attaquesRapide = nomsAttaquesRapides;
+        this.attaquesChargees = nomsAttaquesChargees;
     }
 
 
@@ -21,25 +29,42 @@ class Pokemon {
         // TODO
     }
 
-
-
     static fill_pokemons(){
         pokemons.forEach(poke => {
+            var moves = pokemon_moves.find(move => {
+                if (move.pokemon_name == poke.pokemon_name) {
+                    return true
+                }
+                return false
+            })
+
+            var types = pokemon_types.find(type => {
+                if (type.pokemon_name == poke.pokemon_name) {
+                    return true
+                }
+                return false
+            })
+
             const currentPokemon = new Pokemon(
                 poke.pokemon_id,
                 poke.pokemon_name,
                 poke.base_stamina,
                 poke.base_attack,
                 poke.base_defense,
-                null,
-                null,
-                null            
+                types,
+                moves.fast_moves,
+                moves.charged_moves            
             )
-            console.log(currentPokemon);
+            console.log(currentPokemon.types);
         });
     }
 
     static getTypes() {
+        Type.fill_type()
+        return Type.all_types
+    }
+
+    getTypes() {
         Type.fill_type()
         return Type.all_types
     }
