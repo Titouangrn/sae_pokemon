@@ -5,31 +5,13 @@ export class Type {
     static all_types = []
 
     constructor(type) { // Todo faire en sorte que ça devienne un vrais type en mode plante elec ... 
-        if (Type.typeFormatted == undefined) {
+        if (Type.typeFormatted.length == 0) {
             Type.formatType()
         }
-        
+
         if (Type.typeIsPresent(type)) {
             this.type = type
-        }        
-    }
-
-    /**
-     * Setter for the type of pokemon
-     * @param {String} type 
-     */
-    type(type) {
-        if (this.typeIsPresent(type)) {
-            this.type = type
         }
-    }
-
-    /**
-     * Getter for the type
-     * @returns The type attributed
-     */
-    type() {
-        return this.type
     }
 
     /**
@@ -38,10 +20,10 @@ export class Type {
      * @returns True if yes, false if no
      */
     static typeIsPresent(typeTested) {
-        if (Type.all_types == undefined) {
+        if (Type.all_types.length == 0) {
             Type.fill_type()
         }
-        
+        console.log(typeTested + " : " + Type.all_types.includes(typeTested) + "")
         if (Type.all_types.includes(typeTested)) {
             return true   
         } else {
@@ -74,7 +56,7 @@ export class Type {
      */
     static fill_type() {
         for (const type in type_effectiveness) {
-            this.all_types.push(type)
+            Type.all_types.push(type)
         }
     }
 

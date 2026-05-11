@@ -16,10 +16,8 @@ class Pokemon {
         this.baseDefense = baseDefense;
 
         this.types = []
-        for(const type in nomTypes) {
-            this.types.push(new Type(type))
-        }
-
+        nomTypes.forEach(type => this.types.push(new Type(type)))
+        
         this.attaquesRapide = nomsAttaquesRapides;
         this.attaquesChargees = nomsAttaquesChargees;
     }
@@ -32,14 +30,14 @@ class Pokemon {
     static fill_pokemons(){
         pokemons.forEach(poke => {
             var moves = pokemon_moves.find(move => {
-                if (move.pokemon_name == poke.pokemon_name) {
+                if (move.pokemon_id == poke.pokemon_id) {
                     return true
                 }
                 return false
             })
 
             var types = pokemon_types.find(type => {
-                if (type.pokemon_name == poke.pokemon_name) {
+                if (type.pokemon_id == poke.pokemon_id) {
                     return true
                 }
                 return false
@@ -51,11 +49,11 @@ class Pokemon {
                 poke.base_stamina,
                 poke.base_attack,
                 poke.base_defense,
-                types,
+                types.type,
                 moves.fast_moves,
                 moves.charged_moves            
             )
-            console.log(currentPokemon.types);
+            console.log(currentPokemon);
         });
     }
 
