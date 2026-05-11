@@ -69,4 +69,3 @@ class Pokemon {
 }
 
 Pokemon.fill_pokemons();
-console.log(Pokemon.getTypes())

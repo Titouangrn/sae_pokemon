@@ -23,7 +23,7 @@ export class Type {
         if (Type.all_types.length == 0) {
             Type.fill_type()
         }
-        console.log(typeTested + " : " + Type.all_types.includes(typeTested) + "")
+        
         if (Type.all_types.includes(typeTested)) {
             return true   
         } else {
