@@ -1,4 +1,3 @@
-//import {pokemon_moves} from "../info_pokemons/pokemon_moves.js";
 import {fast_moves} from "../info_pokemons/fast_moves.js";
 import {charged_moves} from "../info_pokemons/charged_moves.js";
 
@@ -7,20 +6,24 @@ import {charged_moves} from "../info_pokemons/charged_moves.js";
     dans le fichier js contenant la variable
 */
 
-export class Attack {
+class Attack {
+    static all_attacks;
 
-    static all_attacks = {};
+    constructor(nom) {
+        
+        if (Attack.all_attacks == undefined) {
+            Attack.fill_attacks();
+        }
 
-    constructor(idAttack, nom, type, puissance, duree) {
-        this.idAttack = idAttack;
         this.nom = nom;
-        this.type = type;
-        this.puissance = puissance;
-        this.duree = duree;
+        this.move_id = Attack.all_attacks[nom]["move_id"];
+        this.type = Attack.all_attacks[nom]["type"];
+        this.power = Attack.all_attacks[nom]["power"];
+        this.duration = Attack.all_attacks[nom]["duration"];
     }
 
     toString() {
-        return `${this.nom} : ${this.idAttack}, ${this.type}, ${this.puissance}, ${this.duree}`;
+        return `${this.nom}: ${this.move_id}, ${this.type}, ${this.power}, ${this.duration}`;
     }
 
     /**
@@ -28,41 +31,29 @@ export class Attack {
      * ajoute les différentes attaques dans all_attacks
      */ 
     static fill_attacks() {
-        charged_moves.forEach(chargedMove => {
-            const current_attack = new Attack(
-                chargedMove.move_id,
-                chargedMove.name,
-                chargedMove.type,
-                chargedMove.power,
-                chargedMove.duration
-            );
-            Attack.all_attacks[chargedMove.move_id] = current_attack;
-        });
-    
-        fast_moves.forEach(fastMove => {
-                const current_attack = new Attack(
-                    fastMove.move_id,
-                    fastMove.name,
-                    fastMove.type,
-                    fastMove.power,
-                    fastMove.duration
-                );
-                Attack.all_attacks[fastMove.move_id] = current_attack;
-        });
-    }
+        Attack.all_attacks = {};
 
-    /**
-     * Find an attack by it name in all_attacks
-     * @Return an attack
-     */
-    static findByName(nom){
-        if (Object.keys(this.all_attacks).length != 0) {
-            const moveData = Object.values(this.all_attacks).find(
-                atk => atk.nom === nom
-            )
-            return moveData;
+        for (const moveIndex in fast_moves) {
+            var move = fast_moves[moveIndex];
+
+            // check if the attack has not been initiated yet
+            if (Attack.all_attacks[move["name"]] == undefined ) {
+                // Add the attack to the all attack array
+                Attack.all_attacks[move["name"]] = {"move_id": move["move_id"], "type": move["type"], "power": move["power"], "duration": move["duration"]};
+            } 
         }
-        return null 
+
+        for (const moveIndex in charged_moves) {
+            var move = charged_moves[moveIndex];
+
+            // check if the attack has not been initiated yet
+            if (Attack.all_attacks[move["name"]] == undefined ) {
+                // Add the attack to the all attack array
+                Attack.all_attacks[move["name"]] = {"move_id": move["move_id"], "type": move["type"], "power": move["power"], "duration": move["duration"]};
+            } 
+        }
     }
- 
 }
+
+var attack = new Attack("Sludge Bomb");
+console.log(attack.toString());
