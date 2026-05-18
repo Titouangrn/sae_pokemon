@@ -1,50 +1,17 @@
 import {type_effectiveness} from "../info_pokemons/type_effectiveness.js"
 
 export class Type {
-    static typeFormatted
-    static all_types
+    static typeFormatted = {}
+    static all_types = []
 
     constructor(type) { // Todo faire en sorte que ça devienne un vrais type en mode plante elec ... 
-        if (this.typeIsPresent(type)) {
+        if (Type.typeFormatted.length == 0) {
+            Type.formatType()
+        }
+
+        if (Type.typeIsPresent(type)) {
             this.type = type
         }
-
-        this.typeFormatted = {}
-        
-        for (const type in type_effectiveness) {
-            for (const ennemyType in type_effectiveness[type]) {
-                // check if the type has not been initiated yet and if the attack percentage is also present for a given type
-                if (this.typeFormatted[type] == undefined 
-                ||  this.typeFormatted[type][type_effectiveness[type][ennemyType]] == undefined) {
-                    // Assign to not replace the in this.typeFormatted[type]
-                    this.typeFormatted[type] = Object.assign({}, this.typeFormatted[type], {[type_effectiveness[type][ennemyType]]: [ennemyType]});
-
-                } else {
-                    // Adding the ennemy type to the list if the damage % is alredy present
-                    var list = this.typeFormatted[type][type_effectiveness[type][ennemyType]]
-                    list.push(ennemyType)
-                    this.typeFormatted[type] = {[type_effectiveness[type][ennemyType]]: list}
-                }
-            }
-        }
-    }
-
-    /**
-     * Setter for the type of pokemon
-     * @param {String} type 
-     */
-    type(type) {
-        if (this.typeIsPresent(type)) {
-            this.type = type
-        }
-    }
-
-    /**
-     * Getter for the type
-     * @returns The type attributed
-     */
-    type() {
-        return this.type
     }
 
     /**
@@ -52,12 +19,12 @@ export class Type {
      * @param {String} typeTested 
      * @returns True if yes, false if no
      */
-    typeIsPresent(typeTested) {
-        if (all_types == undefined) {
-            fill_type()
+    static typeIsPresent(typeTested) {
+        if (Type.all_types.length == 0) {
+            Type.fill_type()
         }
         
-        if (all_types.contains(typeTested)) {
+        if (Type.all_types.includes(typeTested)) {
             return true   
         } else {
             return false
@@ -88,9 +55,30 @@ export class Type {
      * Fill the all_types variable with 
      */
     static fill_type() {
-        this.all_types = []
         for (const type in type_effectiveness) {
-            this.all_types.push(type)
+            Type.all_types.push(type)
+        }
+    }
+
+    /**
+     * Format the type to return a better data set
+     */
+    static formatType() {
+        for (const type in type_effectiveness) {
+            for (const ennemyType in type_effectiveness[type]) {
+                // check if the type has not been initiated yet and if the attack percentage is also present for a given type
+                if (this.typeFormatted[type] == undefined 
+                ||  this.typeFormatted[type][type_effectiveness[type][ennemyType]] == undefined) {
+                    // Assign to not replace the in this.typeFormatted[type]
+                    this.typeFormatted[type] = Object.assign({}, this.typeFormatted[type], {[type_effectiveness[type][ennemyType]]: [ennemyType]});
+
+                } else {
+                    // Adding the ennemy type to the list if the damage % is alredy present
+                    var list = this.typeFormatted[type][type_effectiveness[type][ennemyType]]
+                    list.push(ennemyType)
+                    this.typeFormatted[type] = {[type_effectiveness[type][ennemyType]]: list}
+                }
+            }
         }
     }
 }
