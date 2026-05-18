@@ -7,7 +7,7 @@ import {charged_moves} from "../info_pokemons/charged_moves.js";
     dans le fichier js contenant la variable
 */
 
-class Attack {
+export class Attack {
 
     static all_attacks = {};
 
@@ -38,20 +38,31 @@ class Attack {
             );
             Attack.all_attacks[chargedMove.move_id] = current_attack;
         });
-        
+    
         fast_moves.forEach(fastMove => {
-            const current_attack = new Attack(
-                fastMove.move_id,
-                fastMove.name,
-                fastMove.type,
-                fastMove.power,
-                fastMove.duration
-            );
-            Attack.all_attacks[fastMove.move_id] = current_attack;
+                const current_attack = new Attack(
+                    fastMove.move_id,
+                    fastMove.name,
+                    fastMove.type,
+                    fastMove.power,
+                    fastMove.duration
+                );
+                Attack.all_attacks[fastMove.move_id] = current_attack;
         });
     }
 
-    
+    /**
+     * Find an attack by it name in all_attacks
+     * @Return an attack
+     */
+    static findByName(nom){
+        if (Object.keys(this.all_attacks).length != 0) {
+            const moveData = Object.values(this.all_attacks).find(
+                atk => atk.nom === nom
+            )
+            return moveData;
+        }
+        return null 
+    }
+ 
 }
-
-Attack.fill_attacks();
