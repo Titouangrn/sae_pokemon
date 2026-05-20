@@ -1,12 +1,12 @@
-import {fast_moves} from "../info_pokemons/fast_moves.js";
-import {charged_moves} from "../info_pokemons/charged_moves.js";
+import {fast_moves} from "./fast_moves.js";
+import {charged_moves} from "./charged_moves.js";
 
 /*
     Faire en sorte d'importer les variables sans mettre le export 
     dans le fichier js contenant la variable
 */
 
-class Attack {
+export class Attack {
     static all_attacks;
 
     constructor(nom) {
@@ -15,11 +15,26 @@ class Attack {
             Attack.fill_attacks();
         }
 
-        this.nom = nom;
+        // Check si le move id est correct
+        try {
+            Attack.all_attacks[nom]["move_id"];
+        } catch (error) {
+            return;   
+        }
+
+        this.attackName = nom;
         this.move_id = Attack.all_attacks[nom]["move_id"];
         this.type = Attack.all_attacks[nom]["type"];
         this.power = Attack.all_attacks[nom]["power"];
         this.duration = Attack.all_attacks[nom]["duration"];
+    }
+
+    get attackName () {
+        return this._attackName;
+    }
+
+    set attackName (newAttackName) {
+        this._attackName = newAttackName;
     }
 
     toString() {
@@ -54,6 +69,3 @@ class Attack {
         }
     }
 }
-
-var attack = new Attack("Sludge Bomb");
-console.log(attack.toString());

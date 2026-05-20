@@ -1,17 +1,26 @@
-import {type_effectiveness} from "../info_pokemons/type_effectiveness.js"
+import {type_effectiveness} from "./type_effectiveness.js"
 
 export class Type {
-    static typeFormatted = {}
-    static all_types = []
+    static all_types;
 
     constructor(type) { // Todo faire en sorte que ça devienne un vrais type en mode plante elec ... 
-        if (Type.typeFormatted.length == 0) {
-            Type.formatType()
+        if (Type.all_types == undefined) {
+            Type.all_types = {};
+            Type.fill_types()
         }
 
         if (Type.typeIsPresent(type)) {
-            this.type = type
+            this.typeName = type;
+            this.effet = Type.all_types[type];
         }
+    }
+
+    get typeName () {
+        return this._typeName;
+    }
+
+    set typeName (newTypeName) {
+        this._typeName = newTypeName;
     }
 
     /**
@@ -20,15 +29,12 @@ export class Type {
      * @returns True if yes, false if no
      */
     static typeIsPresent(typeTested) {
-        if (Type.all_types.length == 0) {
-            Type.fill_type()
+        for (const type in Type.all_types) {
+            if (typeTested == type) {
+                return true;
+            }
         }
-        
-        if (Type.all_types.includes(typeTested)) {
-            return true   
-        } else {
-            return false
-        }
+        return false;
     }
 
     /**
@@ -36,47 +42,34 @@ export class Type {
      * @returns String containing the formatted result of all the types
      */
     toString() {
-        var string = ""
+        var string = this.type + " : "
 
-        for (const type in this.typeFormatted) {
-            string = string + type + " : "
-
-            for (const percentage in this.typeFormatted[type]) {
-                string = string + percentage + " [" + this.typeFormatted[type][percentage] + "], "
-            }
-
-            string = string + "\n"
+        for (const percentage in this.effet) {
+            string = string + percentage + " [" + this.effet[percentage] + "], "
         }
+
+        string = string + "\n"
 
         return string
     }
 
     /**
-     * Fill the all_types variable with 
-     */
-    static fill_type() {
-        for (const type in type_effectiveness) {
-            Type.all_types.push(type)
-        }
-    }
-
-    /**
      * Format the type to return a better data set
      */
-    static formatType() {
+    static fill_types() {
         for (const type in type_effectiveness) {
             for (const ennemyType in type_effectiveness[type]) {
                 // check if the type has not been initiated yet and if the attack percentage is also present for a given type
-                if (this.typeFormatted[type] == undefined 
-                ||  this.typeFormatted[type][type_effectiveness[type][ennemyType]] == undefined) {
+                if (Type.all_types[type] == undefined
+                ||  Type.all_types[type][type_effectiveness[type][ennemyType]] == undefined) {
                     // Assign to not replace the in this.typeFormatted[type]
-                    this.typeFormatted[type] = Object.assign({}, this.typeFormatted[type], {[type_effectiveness[type][ennemyType]]: [ennemyType]});
+                    Type.all_types[type] = Object.assign({}, Type.all_types[type], {[type_effectiveness[type][ennemyType]]: [ennemyType]});
 
                 } else {
                     // Adding the ennemy type to the list if the damage % is alredy present
-                    var list = this.typeFormatted[type][type_effectiveness[type][ennemyType]]
+                    var list = Type.all_types[type][type_effectiveness[type][ennemyType]]
                     list.push(ennemyType)
-                    this.typeFormatted[type] = {[type_effectiveness[type][ennemyType]]: list}
+                    Type.all_types[type] = {[type_effectiveness[type][ennemyType]]: list}
                 }
             }
         }
